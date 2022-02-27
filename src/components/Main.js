@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useState ,useEffect} from 'react'
 import instagramLogo from "../assets/owner/instagram.png"
 import twitterLogo from "../assets/owner/twitter.png"
 import moreIcon from "../assets/owner/more.png"
 import './Main.css'
-const Main = () => {
+const Main = ({selectedPunk, punkListData}) => {
+
+    const [activePunk, setActivePunk] = useState(punkListData[0])
+    
+    useEffect(()=>{
+
+        setActivePunk(punkListData[selectedPunk])
+    },[punkListData,selectedPunk])
+    console.log(activePunk)
   return (
     <div className='main'>
       <div className='mainContent'>
@@ -11,26 +19,28 @@ const Main = () => {
             <div className='punkContainer'>
                 <img 
                 className='selectedPunk' 
-                src="https://nftprojectlist.com/wp-content/uploads/2021/08/64NRxdVj_400x400.jpg" 
+                src={activePunk.image_preview_url} 
                 alt=""/>
             </div>
         </div>
         <div className='punkDetails' style={{color:'#fff'}}>
             <div className='title'>
-                Rohit Surya
+                {activePunk.name}
             </div>
-            <span className='itemNumber'>.#420</span>
-        </div>
+            <span className='itemNumber'>.#{activePunk.token_id}</span>
+        
         <div className='owner' style={{color:'#fff'}}>
             <div className='ownerImageContainer'>
-                <img src='https://nftprojectlist.com/wp-content/uploads/2021/08/64NRxdVj_400x400.jpg' alt=""/>
+                <img src={activePunk.owner.profile_img_url} alt=""/>
             </div>
-            <div className='ownerNameAndHandle'>
-                <div className=''>
-                    0x89EC467Fa3ecF5D6867A8676Fc5624b0AB7d4864
-                </div>
-                <div className='ownerHandle'>
-                    @titaniumBeast
+            <div className='ownerDetails'>
+                <div className='ownerNameAndHandle'>
+                    <div className=''>
+                        {activePunk.owner.address}
+                    </div>
+                    <div className='ownerHandle'>
+                        @titaniumBeast
+                    </div>
                 </div>
                 <div className='ownerLink'>
                     <img src={instagramLogo} alt=""/>
@@ -40,7 +50,8 @@ const Main = () => {
                 </div>
                 <div className='ownerLink'>
                     <img src={moreIcon} alt=""/>
-                </div>
+                </div>   
+            </div>
             </div>
         </div>
       </div>
